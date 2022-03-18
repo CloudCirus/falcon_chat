@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 from typing import List, Optional
 
-from .dataclasses import User, Chat, ChatPart, Message
+from .dataclasses import Chat, ChatPart, Message, User
 
 
 class UserRepo(ABC):
@@ -11,14 +11,14 @@ class UserRepo(ABC):
         ...
 
     @abstractmethod
-    def add(self, user: User):  # добавляем после регистрации
+    def add(self, user: User):
         ...
 
 
 class ChatRepo(ABC):
 
     @abstractmethod
-    def create(self, chat: Chat) -> None:
+    def create(self, chat: Chat) -> Chat:
         ...
 
     @abstractmethod

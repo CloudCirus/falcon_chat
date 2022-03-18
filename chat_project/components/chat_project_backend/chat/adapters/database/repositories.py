@@ -1,7 +1,10 @@
-from typing import Optional, List
-from chat.application import interfaces
-from chat.application.dataclasses import User, Chat, ChatPart, Message
+from typing import List, Optional
+
 from classic.components import component
+
+from chat.application import interfaces
+from chat.application.dataclasses import Chat, ChatPart, Message, User
+
 from .storage import Storage
 
 
@@ -28,12 +31,13 @@ class ChatRepo(interfaces.ChatRepo):
                 return chat
         return None
 
-    def create(self, chat: Chat) -> None:
+    def create(self, chat: Chat) -> Optional[Chat]:
         validate = True
         if self.get_chat(chat.id):
             validate = False
         if validate:
             self.chats.append(chat.dict())
+            return chat
 
     def get_info(self, chat_id: int) -> Optional[ChatPart]:
         chat = self.get_chat(chat_id)

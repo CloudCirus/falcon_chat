@@ -1,13 +1,11 @@
 from typing import List, Optional
+
 from classic.app import DTO, validate_with_dto
-from classic.aspects import PointCut
 from classic.components import component
-from . import interfaces
-from .dataclasses import User, Message, Chat, ChatPart
 from pydantic import conint, validate_arguments
 
-# join_points = PointCut()
-# join_point = join_points.join_point
+from . import interfaces
+from .dataclasses import Chat, ChatPart, Message, User
 
 
 class UserInfo(DTO):
@@ -41,9 +39,11 @@ class ChatService:
     chat_repo: interfaces.ChatRepo
 
     @validate_with_dto
-    def create(self, chat_info: ChatInfo) -> None:
+    def create(self, chat_info: ChatInfo) -> Chat:
+        print("create chat service")
         chat = chat_info.create_obj(Chat)
-        self.chat_repo.create(chat)
+        print(chat)
+        return self.chat_repo.create(chat)
 
     def get_info(self, chat_id: int) -> ChatPart:
         return self.chat_repo.get_info(chat_id)
