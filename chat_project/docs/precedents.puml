@@ -1,0 +1,39 @@
+@startuml
+
+header Чат
+title Диаграмма прецедентов
+
+left to right direction
+
+usecase "регистрация" as register
+usecase "создать чат" as create_chat
+usecase "обновить чат инфо" as update_chat_info
+usecase "получить чат инфо" as get_chat_info
+usecase "удалить чат" as del_chat
+usecase "добавить в чат" as invite_in_chat
+usecase "покинуть чат" as leave_chat
+usecase "отправить сообщение" as send_message
+usecase "получить сообщения" as get_messages
+
+actor "Гость" as guest
+guest --- register
+
+actor "Пользователь" as user
+user --- create_chat
+
+actor "Участник чата" as chat_user
+chat_user --- get_messages
+chat_user --- get_chat_info
+chat_user --- leave_chat
+chat_user --- send_message
+
+actor "Создатель чата" as admin
+admin --- update_chat_info
+admin --- del_chat
+admin --- invite_in_chat
+
+chat_user <- admin
+user <- chat_user
+
+
+@enduml
