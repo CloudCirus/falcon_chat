@@ -4,7 +4,7 @@ from classic.app import DTO, validate_with_dto
 from classic.components import component
 from pydantic import conint, validate_arguments
 
-from . import interfaces
+from . import errors, interfaces
 from .dataclasses import Chat, ChatPart, Message, User
 
 
@@ -40,15 +40,23 @@ class ChatService:
 
     @validate_with_dto
     def create(self, chat_info: ChatInfo) -> Chat:
-        print("create chat service")
         chat = chat_info.create_obj(Chat)
-        print(chat)
-        return self.chat_repo.create(chat)
+        response = self.chat_repo.create(chat)
+        if response:
+            return response
+        else:
+            raise errors.CantCreateChat(id=chat_info.id)
 
+    @validate_arguments
     def get_info(self, chat_id: int) -> ChatPart:
-        return self.chat_repo.get_info(chat_id)
+        info = self.chat_repo.get_info(chat_id)
+        if info:
+            return self.chat_repo.get_info(chat_id)
+        else:
+            raise errors.NoChat(id=chat_id)
 
     @validate_with_dto
     def change_info(self, chat_info: ChatInfoForChange) -> None:
+        print("change chat info service")
         info = chat_info.create_obj(ChatInfo)
         self.chat_repo.change_info(info)

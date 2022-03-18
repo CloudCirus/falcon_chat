@@ -9,8 +9,8 @@ class Settings:
 
 class DB:
     chat_repo = database.repositories.ChatRepo(chats=Storage.chats)
-    user_repo = database.repositories.UserRepo(users=Storage.users)
-    message_repo = database.repositories.MessageRepo(messages=Storage.messages)
+    # user_repo = database.repositories.UserRepo(users=Storage.users)
+    # message_repo = database.repositories.MessageRepo(messages=Storage.messages)
 
 
 class Application:
