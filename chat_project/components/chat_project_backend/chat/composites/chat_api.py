@@ -8,17 +8,28 @@ class Settings:
 
 
 class DB:
-    chat_repo = database.repositories.ChatRepo(chats=Storage.chats)
-    # user_repo = database.repositories.UserRepo(users=Storage.users)
-    # message_repo = database.repositories.MessageRepo(messages=Storage.messages)
+    chat_repo = database.repositories.ChatRepo(chats=Storage.chats, users=Storage.users)
+    user_repo = database.repositories.UserRepo(users=Storage.users)
+    message_repo = database.repositories.MessageRepo(messages=Storage.messages)
 
 
 class Application:
-    chat = services.ChatService(chat_repo=DB.chat_repo)
+    chat = services.ChatService(
+        chat_repo=DB.chat_repo,
+        user_repo=DB.user_repo,
+    )
+    user = services.UserService(user_repo=DB.user_repo)
+    message = services.MessageService(
+        message_repo=DB.message_repo,
+        user_repo=DB.user_repo,
+        chat_repo=DB.chat_repo,
+    )
 
 
 app = chat_api.create_app(
     chat=Application.chat,
+    user=Application.user,
+    message=Application.message,
 )
 
 if __name__ == '__main__':
