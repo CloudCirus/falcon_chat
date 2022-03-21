@@ -15,10 +15,18 @@ def test__add(service, message_repo, message_1_dto, message_1):
         "chat_id": 1,
         "text": "some_text_1"
     }
-    assert isinstance(service.add(**message), Message)
+    message = service.add(**message)
+    assert message == Message(
+        user_id=1,
+        chat_id=1,
+        text='some_text_1',
+        created_at=message.created_at,
+        id=3
+    )
 
 
 def test__get_all(service, message_repo):
     chat_id = 1
     user_id = 1
-    assert isinstance(service.get_all(chat_id, user_id), list)
+    messages = service.get_all(chat_id, user_id)
+    assert isinstance(messages, list) and bool(messages)

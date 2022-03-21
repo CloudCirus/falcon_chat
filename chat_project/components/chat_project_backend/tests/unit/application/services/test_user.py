@@ -15,7 +15,6 @@ def test__add_user(service, user_repo):
     service.add_user(username=username, password=password)
 
     _, value = user_repo.add.return_value
-    print(value)
     assert value == User(username=username, password=None, id=2)
 
 
