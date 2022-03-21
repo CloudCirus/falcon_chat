@@ -1,30 +1,34 @@
+from dataclasses import dataclass
 from typing import List, Optional
 
-from pydantic import BaseModel
 
-
-class User(BaseModel):
-    id: int
+@dataclass
+class User:
     username: str
-    auth: Optional[str] = None
+    password: Optional[str]
+    id: Optional[int] = None
 
-
-class Chat(BaseModel):
+@dataclass
+class Chat:
     id: int
     title: str
     info: str
-    owner: int
+    user_id: int
     members: List[int]
 
 
-class ChatPart(BaseModel):
-    id: int
+@dataclass
+class ChatPart:
     title: str
     info: str
+    id: Optional[int] = None
+    user_id: Optional[int] = None
 
 
-class Message(BaseModel):
-    id: int
+@dataclass
+class Message:
     user_id: int
     chat_id: int
     text: str
+    created_at: str
+    id: Optional[int] = None

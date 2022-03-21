@@ -7,38 +7,54 @@ from .dataclasses import Chat, ChatPart, Message, User
 class UserRepo(ABC):
 
     @abstractmethod
-    def get_by_id(self, user_id: int) -> Optional[User]:
+    def get_by_id(self, user_id: int) -> Optional[dict]:
         ...
 
     @abstractmethod
-    def add(self, user: User):
+    def get_by_username(self, username: str) -> Optional[dict]:
+        ...
+
+    @abstractmethod
+    def add(self, user_payload: dict) -> Optional[str]:
+        ...
+
+    @abstractmethod
+    def delete(self, user_id) -> Optional[User]:
         ...
 
 
 class ChatRepo(ABC):
 
     @abstractmethod
-    def create(self, chat: Chat) -> Chat:
+    def get_chat(self, chat_id: int) -> Optional[dict]:
         ...
 
     @abstractmethod
-    def get_info(self, chat_id: int) -> ChatPart:
+    def create(self, chat: ChatPart) -> Chat:
         ...
 
     @abstractmethod
-    def change_info(self, chat_info: ChatPart) -> None:
+    def get_info(self, chat_id: int) -> Optional[Chat]:
         ...
 
     @abstractmethod
-    def remove_by_id(self, chat_id: int) -> None:
+    def change_info(self, chat_info: ChatPart) -> Optional[Chat]:
         ...
 
     @abstractmethod
-    def add_user(self, chat_id: int, user_id: int) -> None:
+    def remove_by_id(self, chat_id: int) -> Optional[Chat]:
         ...
 
     @abstractmethod
-    def remove_user(self, chat_id: int, user_id: int) -> None:
+    def add_user(self, chat_id: int, user_id: int) -> Optional[Chat]:
+        ...
+
+    @abstractmethod
+    def remove_user(self, chat_id: int, user_id: int) -> Optional[Chat]:
+        ...
+
+    @abstractmethod
+    def leave_chat(self, chat_id: int, user_id: int) -> Optional[Chat]:
         ...
 
 
@@ -49,5 +65,5 @@ class MessageRepo(ABC):
         ...
 
     @abstractmethod
-    def add(self, message: Message) -> None:
+    def add(self, chat: Message) -> Optional[Message]:
         ...
